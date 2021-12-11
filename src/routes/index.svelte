@@ -2,16 +2,27 @@
 import { goto } from "$app/navigation";
 
     import SignUpForm from "$lib/components/SignUpForm.svelte";
-    import {wants_many_to_many_store, wants_store, want_store} from "$lib/stores"
+    import {wants_many_to_many_store, wants_store, want_store, in_order_to_draft_store} from "$lib/stores"
 
     async function submitForm(e) {
         console.log(e.target);
 
+        // We're checking to see if a want with the same name already exists.  If so, instead of creating a new object in the database (which could lead to sprawl, of multiple wants having the same name and being different objects), we'll instead route to that same-named want.
+        if ($wants_store.some(element => element.name == document.getElementById('trying-to').value)) {
+
+            // In case people we're already typing values for the "in-order-to" section, instead of that data being lost, we'll save it in a store.  When we go to the currently existing page for this want, then this in_order_to draft will be pre-loaded in a textarea, so the user can submit it and create the relationship on that page.
+            $in_order_to_draft_store = document.getElementById('in-order-to').value
+            goto(`/${document.getElementById('trying-to').value}`);
+        }
+
+        else {
+        
         var formData = new FormData(e.target)
+
         formData.append('uuid_parent', crypto.randomUUID())
         formData.append('uuid_child', crypto.randomUUID())
        
-        const response = await fetch(`insert_want`, {
+        const response = await fetch(`insert_wants`, {
             method: 'post',
             body: formData
             })
@@ -31,6 +42,7 @@ import { goto } from "$app/navigation";
         console.log(data);
         console.log(error);
       }
+    }
 
     }
 
@@ -63,14 +75,14 @@ import { goto } from "$app/navigation";
 <!-- <label>What are you trying to do?</label> -->
 <div style="display: flex">
 <label>I/we are trying to</label>
-<textarea name="trying-to" placeholder="..."></textarea>
+<textarea id="trying-to" name="trying-to" placeholder="..."></textarea>
 </div>
 <br>
 <br>
 <br>
 <div style="display: flex">
 <label>In order to</label>
-<textarea name="in-order-to" placeholder="..."></textarea>
+<textarea id="in-order-to" name="in-order-to" placeholder="..."></textarea>
 </div>
 <br>
 <button class="submit">Submit</button>

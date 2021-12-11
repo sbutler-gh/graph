@@ -9,10 +9,18 @@ const supabase = createClient( import.meta.env.VITE_SUPABASE_URL,
 /** @type {import('@sveltejs/kit').RequestHandler} */
 export async function post(request) {
 
+    // console.log(request.body);
+
+    // let uuid = crypto.randomUUID();
+    // console.log(uuid);
+    console.log(request.body.get('uuid_parent'));
+    console.log(request.body.get('uuid_child'));
+
     const { data, error } = await supabase
     .from('wants')
     .insert([
-    { name: request.body.get('want_name')}
+    { name: request.body.get('in-order-to'), id: request.body.get('uuid_parent')},
+    { name: request.body.get('trying-to'), id: request.body.get('uuid_child')},
     ])
 
     if (error) {
