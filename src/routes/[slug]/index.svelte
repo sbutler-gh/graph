@@ -3,7 +3,10 @@
     export let parents;
     export let children;
     export let in_order_to;
+    let selected_in_order_to;
     let to_accomplish;
+    let trying_to;
+    let new_trying_to_array = [];
 
     async function submitParent(e) {
 
@@ -140,6 +143,84 @@ else {
 }
 }
 
+// This function is if we see an "in order to" value on this page, and want to propose a different means to serve that end.
+// For example, if we're trying trying to "get a bike", that could be in order to "get to work" and "get groceries from the store."
+// But getting a bike isn't the only way to "get to work" or "get groceries from the store."
+// "Finding a public transit route" could also help us "get to work."  "Signing up for a delivery service" could also help us "get groceries from the store."
+// So with this function, and the corresponding form in the HTML, we enable users to select one of the ends (e.g. "in order to"s) present on the page — and offer alternative means to accomplishing them, besides the main want displayed at the top of the page.
+async function submitTryingTo(e) {
+
+document.getElementById('submitTryingToButton').disabled = true;
+
+var formData = new FormData(e.target);
+formData.append('uuid_parent', selected_in_order_to.id);
+
+// First, we want to check if the item being submitted exists already.  And if so, to prevent sprawl, we want to create the child on the current want with that already existing item.
+if ($wants_store.find(element => element.name == trying_to)) {
+let child = $wants_store.find(element => element.name == trying_to);
+
+// Now, we'll append the child ID to the formData, so we can insert a relationship to the many_many table with child.id (want_id) and the want.id (in_order_to_parent_id)
+formData.append('uuid_child', child.id)
+
+// With that set, we'll insert the relationship into the many to many table.
+let response = await fetch ('/insert_want_many_to_many', {
+method: 'post',
+body: formData
+})
+
+if (response.ok) {
+    let data = await response.json();
+
+    // We'll add the new relationship to the local store of the many_to_many table.
+    $wants_many_to_many_store.push(data.data[0]);
+
+    new_trying_to_array.push({
+        "in_order_to": selected_in_order_to.name,
+        "trying_to": trying_to
+    });
+    new_trying_to_array = new_trying_to_array;
+
+    // We won't be able to see the updated data unless we navigate to that next page.
+    // goto(`${selected_in_order_to.name}`);
+    trying_to = "";
+    document.getElementById('submitTryingToButton').disabled = false;
+}
+else {
+    console.log(error);
+}
+}
+
+// If the item being submittted does not exist yet, we'll need to create a new want, and then create the relationship between the new child and the currently existing want on this page.
+
+else {
+
+// We want to add the name of the new want to the formData, so it can be read in the insert_want endoint.
+formData.append('want_name', trying_to);
+
+const response = await fetch(`insert_want`, {
+method: 'post',
+body: formData
+})
+
+if (response.ok) {
+let data = await response.json();
+
+// We add the newly created want to the overall want array.
+$wants_store.push(data.data[0]);
+$wants_store = $wants_store;
+
+// And we add the id of the newly created want to the formData object, which we'll be passing on:
+formData.append('uuid_child', data.data[0].id);
+
+// And now we run the function to create the relationship between the current want and this newly created child want.  We'll also be submitting the new child object, so that can be added to the children array when the relationship is created.
+insertManyToManyRelationship(formData, data.data[0]);
+}
+else {
+console.log(error);
+}
+}
+}
+
     async function insertManyToManyRelationship(formData, new_want) {
 
         const response = await fetch(`insert_want_many_to_many`, {
@@ -163,6 +244,23 @@ else {
                 document.getElementById('submitParentButton').disabled = false;
             }
 
+            // If the in_order_to_parent_id of the new relationship equals the id of the selected "in-order-to" (when creating new "trying-to"), that means that we don't want to add anything to the parents or child array.
+            // This is because a child was added to the selected parent, but we should not see this because we are not currently on that selected parent page.
+            // If we click on the selected parent, then we will see the newly created child as expected.
+            // However, to show the user that this work as expected (and for context), we will add this data to a different array to be shown in that alternatives section.
+
+            else if (data.data[0].in_order_to_parent_id == selected_in_order_to.id) {
+
+                new_trying_to_array.push({
+                    "in_order_to": selected_in_order_to.name,
+                    "trying_to": trying_to
+                })
+                new_trying_to_array = new_trying_to_array;
+
+                trying_to = "";
+                document.getElementById('submitTryingToButton').disabled = false;
+            }
+
             // Otherwise, that means we need to add the new want to the child array.
             else {
                 children.push(new_want);
@@ -181,6 +279,7 @@ else {
 </script>
 <script context="module">
 
+import { goto } from "$app/navigation";
       import {wants_many_to_many_store, wants_store, want_store, in_order_to_draft_store} from "$lib/stores"
 
       import { get } from 'svelte/store'
@@ -289,6 +388,22 @@ else {
 <textarea name="to-accomplish" bind:value={to_accomplish}></textarea>
 <button id="submitChildButton" style="display: block;">Add new</button>
 </form>
+<br>
+<h5>What else can we do in order to <select style="" bind:value={selected_in_order_to}>
+{#if parents?.length > 0}
+{#each parents as parent}
+<option value={parent}>{parent.name}</option>
+{/each}
+{/if}
+</select>?</h5>
+<br>
+{#each new_trying_to_array as new_trying_to}
+<p style="margin-bottom: 10px;">In order to <strong>{new_trying_to['in_order_to']}</strong>, we can <strong>{new_trying_to['trying_to']}</strong></p>
+{/each}
+<form on:submit|preventDefault={submitTryingTo}>
+    <textarea name="trying-to" bind:value={trying_to}></textarea>
+    <button id="submitTryingToButton" style="display: block;">Add new</button>
+    </form>
 <style>
     button a {
         text-decoration: none;
