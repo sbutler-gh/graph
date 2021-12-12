@@ -265,23 +265,36 @@ else {
 <p>{want?.name}</p>
 <br>
 <h5>In order to ...</h5>
+<br>
 {#if parents?.length > 0}
 {#each parents as parent}
-<p>{parent.name}</p>
+<button><a sveltekit:prefetch href={parent.name}>{parent.name}</a></button>
 {/each}
 {/if}
+<br>
 <form on:submit|preventDefault={submitParent}>
 <textarea name="in-order-to" bind:value={in_order_to}></textarea>
 <button id="submitParentButton" style="display: block;">Add new</button>
 </form>
 <br>
-<h5>What can we do to accomplish {want?.name}?</h5>
+<h5>How can we accomplish &#123;<span>{want?.name}</span>&#125;?</h5>
+<br>
 {#if children?.length > 0}
 {#each children as child}
-<p>{child.name}</p>
+<button><a sveltekit:prefetch href={child.name}>{child.name}</a></button>
 {/each}
 {/if}
+<br>
 <form on:submit|preventDefault={submitChild}>
 <textarea name="to-accomplish" bind:value={to_accomplish}></textarea>
 <button id="submitChildButton" style="display: block;">Add new</button>
 </form>
+<style>
+    button a {
+        text-decoration: none;
+        color: black;
+    }
+    button {
+        display: block;
+    }
+</style>
