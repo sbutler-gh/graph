@@ -27,6 +27,7 @@
 </script>
 <form on:submit|preventDefault={submitComment}>
     <h5>Add a Comment</h5>
-    <textarea bind:value={content} name="content"></textarea>
+    <br>
+    <textarea bind:value={content} name="content" style="display: block; width: 50%; margin-bottom: 5px;"></textarea>
     <button id="submitCommentButton" style="display: block;">Submit Comment</button>
 </form>
