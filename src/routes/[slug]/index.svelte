@@ -1,4 +1,6 @@
 <script>
+    import CommentForm from "$lib/components/CommentForm.svelte";
+import CommentsDisplay from "$lib/components/CommentsDisplay.svelte";
     export let want;
     export let parents;
     export let children;
@@ -404,6 +406,13 @@ import { goto } from "$app/navigation";
     <textarea name="trying-to" bind:value={trying_to}></textarea>
     <button id="submitTryingToButton" style="display: block;">Add new</button>
     </form>
+<br>
+<hr>
+<br>
+<CommentForm want={want}></CommentForm>
+{#if want?.id}
+<CommentsDisplay want={want}></CommentsDisplay>
+{/if}
 <style>
     button a {
         text-decoration: none;
