@@ -6,7 +6,6 @@ import { goto } from "$app/navigation";
 
     async function submitForm(e) {
         console.log(e.target);
-
         
 
         // We're checking to see if a want with the same name already exists.  If so, instead of creating a new object in the database (which could lead to sprawl, of multiple wants having the same name and being different objects), we'll instead route to that same-named want.
@@ -77,18 +76,23 @@ import { goto } from "$app/navigation";
 <!-- <label>What are you trying to do?</label> -->
 <div style="display: flex">
 <label>I/we are trying to</label>
-<textarea required id="trying-to" name="trying-to" placeholder="..."></textarea>
+<textarea required id="trying-to" name="trying-to" placeholder="..." onkeypress="return event.charCode != 47 && event.charCode != 92"></textarea>
 </div>
 <br>
 <br>
 <br>
 <div style="display: flex">
 <label>In order to</label>
-<textarea required id="in-order-to" name="in-order-to" placeholder="..."></textarea>
+<textarea required id="in-order-to" name="in-order-to" placeholder="..." onkeypress="return event.charCode != 47 && event.charCode != 92"></textarea>
 </div>
 <br>
 <button class="submit">Submit</button>
 </form>
+
+<h3>Newest entries</h3>
+{#each $wants_store.slice().reverse() as want}
+<button><a sveltekit:prefetch href={want.name}>{want.name}</a></button>
+{/each}
 <style>
     form label, form textarea, form button, form input {
         display: block
@@ -108,5 +112,12 @@ import { goto } from "$app/navigation";
     label {
         min-width: fit-content;
         margin-right: 10px;
+    }
+    button a {
+        text-decoration: none;
+        color: black;
+    }
+    button {
+        display: block;
     }
 </style>

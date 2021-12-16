@@ -374,7 +374,7 @@ import { goto } from "$app/navigation";
 {/if}
 <br>
 <form on:submit|preventDefault={submitParent}>
-<textarea name="in-order-to" bind:value={in_order_to}></textarea>
+<textarea name="in-order-to" bind:value={in_order_to} onkeypress="return event.charCode != 47 && event.charCode != 92"></textarea>
 <button id="submitParentButton" style="display: block;">Add new</button>
 </form>
 <br>
@@ -387,7 +387,7 @@ import { goto } from "$app/navigation";
 {/if}
 <br>
 <form on:submit|preventDefault={submitChild}>
-<textarea name="to-accomplish" bind:value={to_accomplish}></textarea>
+<textarea name="to-accomplish" bind:value={to_accomplish} onkeypress="return event.charCode != 47 && event.charCode != 92"></textarea>
 <button id="submitChildButton" style="display: block;">Add new</button>
 </form>
 <br>
@@ -403,7 +403,7 @@ import { goto } from "$app/navigation";
 <p style="margin-bottom: 10px;">In order to <strong>{new_trying_to['in_order_to']}</strong>, we can <strong>{new_trying_to['trying_to']}</strong></p>
 {/each}
 <form on:submit|preventDefault={submitTryingTo}>
-    <textarea name="trying-to" bind:value={trying_to}></textarea>
+    <textarea name="trying-to" bind:value={trying_to} onkeypress="return event.charCode != 47 && event.charCode != 92"></textarea>
     <button id="submitTryingToButton" style="display: block;">Add new</button>
     </form>
 <br>
