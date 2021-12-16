@@ -119,5 +119,6 @@ import { goto } from "$app/navigation";
     }
     button {
         display: block;
+        margin-top: 10px;
     }
 </style>

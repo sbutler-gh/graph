@@ -360,7 +360,7 @@ import { goto } from "$app/navigation";
 			};
 	}
 </script>
-
+<a href="/" style="margin: 10px 0; display: block;">Home</a>
 <h3>What are you trying to do?</h3>
 
 <p>{want?.name}</p>
@@ -400,7 +400,7 @@ import { goto } from "$app/navigation";
 </select>?</h5>
 <br>
 {#each new_trying_to_array as new_trying_to}
-<p style="margin-bottom: 10px;">In order to <strong>{new_trying_to['in_order_to']}</strong>, we can <strong>{new_trying_to['trying_to']}</strong></p>
+<p style="margin-bottom: 10px;">In order to <button style="display: inline"><a href={new_trying_to['in_order_to']}>{new_trying_to['in_order_to']}</a></button>, we can <button style="display: inline"><a href={new_trying_to['trying_to']}>{new_trying_to['trying_to']}</a></button></p>
 {/each}
 <form on:submit|preventDefault={submitTryingTo}>
     <textarea name="trying-to" bind:value={trying_to} onkeypress="return event.charCode != 47 && event.charCode != 92"></textarea>
