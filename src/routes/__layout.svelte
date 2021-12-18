@@ -54,11 +54,7 @@ import UserDisplay from "$lib/components/UserDisplay.svelte";
 </script>
 
 <div class="main">
-  {#if $user_store?.id}
   <UserDisplay></UserDisplay>
-  {:else}
-  <SignUpForm></SignUpForm>
-  {/if}
   <slot />
 </div>
 <style>

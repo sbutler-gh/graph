@@ -40,22 +40,32 @@
     console.log(e.target);
   }
 </script>
-<form on:submit|preventDefault={signUp}>
-  <h5>Sign in to store your activity and get notifications about things you're trying to do.</h5>
-  <br>
-  <label for="email">Email</label>
-  <input type="email" name="email">
-  <label for="password">Password</label>
-  <input name="password">
-  <button type="submit" id="signUpButton">Sign Up</button> or <button type="submit" id="logInButton">Log In</button>
-</form>
+<details><summary>Sign In</summary>
+  <form on:submit|preventDefault={signUp}>
+    <h5>Sign in to store activity and get notifications about what you're trying to do.</h5>
+    <br>
+    <label for="email">Email</label>
+    <input type="email" name="email">
+    <label for="password">Password</label>
+    <input name="password">
+    <button type="submit" id="signUpButton">Sign Up</button> or <button type="submit" id="logInButton">Log In</button>
+  </form>
+</details>
 
 <style>
-/* label, input, button {
+label, input, button {
   display: block;
 }
 
 input {
   margin-bottom: 10px;
-} */
+}
+
+form {
+  width: 200px;
+  background: rgb(245, 245, 245);
+  border: solid 1px #dedede;
+  z-index: 10;
+  padding: 5px;
+}
 </style>

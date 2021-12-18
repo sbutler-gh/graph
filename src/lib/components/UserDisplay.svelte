@@ -1,5 +1,6 @@
 <script>
     import { user_store } from "$lib/stores";
+import SignUpForm from "./SignUpForm.svelte";
 
     let login_form = false;
     let display_user_menu = false;
@@ -28,6 +29,7 @@
 
 </script>
 <div class="menu">
+    {#if $user_store?.id}
 <div on:mouseleave={() => { console.log(display_user_menu); display_user_menu = false }} on:mouseenter={() => { console.log(display_user_menu); display_user_menu = true }}>
 <p>{$user_store.email}</p>
 {#if display_user_menu}
@@ -36,6 +38,9 @@
 </div>
 {/if}
 </div>
+{:else}
+<SignUpForm></SignUpForm>
+{/if}
 </div>
 <style>
     .menu {
@@ -44,7 +49,7 @@
         /* margin-right: %;
         width: 150px; */
         position: absolute;
-        top: 0;
-        right: 1%;
+        top: 1%;
+        right: 10%;
     }
 </style>
