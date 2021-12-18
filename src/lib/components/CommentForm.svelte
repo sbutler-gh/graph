@@ -7,7 +7,7 @@
         document.getElementById('submitCommentButton').disabled = true;
         var formData = new FormData(e.target);
         formData.append('want_id', want.id)
-        formData.append('user_id', $user_store?.id)
+        $user_store?.id ? formData.append('user_id', $user_store?.id) : null;
 
         let response = await fetch('insert_comment_on_want', {
             method: 'post',

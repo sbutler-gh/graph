@@ -16,14 +16,10 @@ export async function post(request) {
     console.log(request.body.get('uuid_parent'));
     console.log(request.body.get('uuid_child'));
 
-    let user_id;
-
-    request.body.get('user_id').value ? user_id = request.body.get('user_id') : user_id = null;
-
     const { data, error } = await supabase
     .from('wants_wants')
     .insert([
-    { want_id: request.body.get('uuid_child'), in_order_to_parent_id: request.body.get('uuid_parent'), creator_id: user_id}
+    { want_id: request.body.get('uuid_child'), in_order_to_parent_id: request.body.get('uuid_parent'), creator_id: request.body?.get('user_id')}
     ])
 
     if (error) {

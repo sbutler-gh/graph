@@ -9,14 +9,21 @@ const supabase = createClient( import.meta.env.VITE_SUPABASE_URL,
 /** @type {import('@sveltejs/kit').RequestHandler} */
 export async function post(request) {
 
-  let user_id;
+  // let user_id;
+  
+  // console.log('logging id');
 
-  request.body.get('user_id').value ? user_id = request.body.get('user_id') : user_id = null;
+  // console.log(request.body.get('user_id').value);
+  // console.log(request.body.get('user_id'));
+
+  // !request.body.get('user_id') ? user_id = null : user_id = request.body.get('user_id');
+
+  // console.log(user_id);
 
     const { data, error } = await supabase
     .from('wants')
     .insert([
-    { name: request.body.get('want_name'), creator_id: user_id}
+    { name: request.body.get('want_name'), creator_id: request.body?.get('user_id')}
     ])
 
     if (error) {

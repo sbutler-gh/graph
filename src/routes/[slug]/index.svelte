@@ -17,7 +17,7 @@ import CommentsDisplay from "$lib/components/CommentsDisplay.svelte";
         var formData = new FormData(e.target);
         formData.append('uuid_child', want.id);
         // We'll append the user id to show who created this.
-        formData.append('user_id', $user_store?.id)
+        $user_store?.id ? formData.append('user_id', $user_store?.id) : null;
 
         // First, we want to check if the item being submitted exists already.  And if so, to prevent sprawl, we want to create the parent on the current want with that already existing item.
         if ($wants_store.find(element => element.name == in_order_to)) {
@@ -87,7 +87,7 @@ import CommentsDisplay from "$lib/components/CommentsDisplay.svelte";
 var formData = new FormData(e.target);
 formData.append('uuid_parent', want.id);
 // We'll append the user id to show who created this.
-formData.append('user_id', $user_store?.id)
+$user_store?.id ? formData.append('user_id', $user_store?.id) : null;
 
 // First, we want to check if the item being submitted exists already.  And if so, to prevent sprawl, we want to create the child on the current want with that already existing item.
 if ($wants_store.find(element => element.name == to_accomplish)) {
@@ -163,7 +163,7 @@ var formData = new FormData(e.target);
 formData.append('uuid_parent', selected_in_order_to.id);
 
 // We'll append the user id to show who created this.
-formData.append('user_id', $user_store?.id)
+$user_store?.id ? formData.append('user_id', $user_store?.id) : null;
 
 // First, we want to check if the item being submitted exists already.  And if so, to prevent sprawl, we want to create the child on the current want with that already existing item.
 if ($wants_store.find(element => element.name == trying_to)) {

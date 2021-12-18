@@ -22,7 +22,7 @@ import { goto } from "$app/navigation";
 
         formData.append('uuid_parent', crypto.randomUUID())
         formData.append('uuid_child', crypto.randomUUID())
-        formData.append('user_id', $user_store?.id);
+        $user_store?.id ? formData.append('user_id', $user_store?.id) : null;
        
         const response = await fetch(`insert_wants`, {
             method: 'post',
