@@ -5,7 +5,7 @@ import UserDisplay from "$lib/components/UserDisplay.svelte";
   import "../app.css";
 </script>
 <script context="module">
-  import {wants_many_to_many_store, wants_store, user_store} from "$lib/stores"
+  import {wants_many_to_many_store, wants_store, user_store, comments_table_store} from "$lib/stores"
   import { browser } from '$app/env';
   export async function load({ page, fetch}) {
 
@@ -44,6 +44,19 @@ import UserDisplay from "$lib/components/UserDisplay.svelte";
       else {
       console.log(error);
       }
+
+    let comments = await fetch('get_comments_table', {
+                method: 'post'
+            })
+
+            if (comments.ok) {
+                let data = await comments.json();
+                console.log(data);
+                comments_table_store.set(data.data);
+            }
+            else {
+                console.log(error);
+            }
 
     return {
       props: {

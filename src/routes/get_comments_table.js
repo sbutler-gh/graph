@@ -12,8 +12,6 @@ export async function post(request) {
     const { data, error } = await supabase
     .from('comments_on_wants')
     .select(`*`)
-    // .match({'want_id(name)': request.body})
-    .match({'want_id': request.body})
     
     if (error) {
 

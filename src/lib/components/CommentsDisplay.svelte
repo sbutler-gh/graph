@@ -5,27 +5,27 @@ import {comments_store} from "$lib/stores"
 export let want;
 // let comments;
 
-onMount(() => {
-    getComments();
-})
+// onMount(() => {
+//     getComments();
+// })
 
-async function getComments() {
+// async function getComments() {
 
-let response = await fetch('get_comments', {
-            method: 'post',
-            body: want.id
-        })
+// let response = await fetch('get_comments', {
+//             method: 'post',
+//             body: want.id
+//         })
 
-        if (response.ok) {
-            let data = await response.json();
-            console.log(data);
-            $comments_store = data.data.reverse();
-            $comments_store = $comments_store
-        }
-        else {
-            console.log(error);
-        }
-    }
+//         if (response.ok) {
+//             let data = await response.json();
+//             console.log(data);
+//             $comments_store = data.data.reverse();
+//             $comments_store = $comments_store
+//         }
+//         else {
+//             console.log(error);
+//         }
+//     }
 </script>
 {#if $comments_store}
 {#each $comments_store as comment}

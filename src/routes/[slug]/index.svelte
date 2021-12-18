@@ -290,7 +290,7 @@ console.log(error);
 <script context="module">
 
 import { goto } from "$app/navigation";
-      import {wants_many_to_many_store, wants_store, want_store, in_order_to_draft_store, user_store} from "$lib/stores"
+      import {comments_store, wants_many_to_many_store, wants_store, want_store, in_order_to_draft_store, user_store, comments_table_store} from "$lib/stores"
 
       import { get } from 'svelte/store'
 
@@ -356,7 +356,11 @@ import { goto } from "$app/navigation";
             console.log(children);
             }
 
-            // Now we return this values as props for the page.
+            // fetching comments from comment_table_store for this page
+
+            let comments_table_array = get(comments_table_store);
+            let comments_array = comments_table_array.filter(element => element.want_id == this_want?.id);
+            comments_store.set(comments_array.reverse());
 
 			return {
 				props: {

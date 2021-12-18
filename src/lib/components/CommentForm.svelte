@@ -1,6 +1,6 @@
 <script>
     export let want;
-    import {comments_store, user_store} from "$lib/stores"
+    import {comments_store, comments_table_store, user_store} from "$lib/stores"
     let content;
 
     async function submitComment(e) {
@@ -16,6 +16,7 @@
 
         if (response.ok) {
             let data = await response.json();
+            $comments_table_store.push(data.data[0]);
             $comments_store.unshift(data.data[0]);
             $comments_store = $comments_store;
             content = "";
