@@ -2,7 +2,7 @@
 import { goto } from "$app/navigation";
 
     import SignUpForm from "$lib/components/SignUpForm.svelte";
-    import {wants_many_to_many_store, wants_store, want_store, in_order_to_draft_store} from "$lib/stores"
+    import {wants_many_to_many_store, wants_store, want_store, in_order_to_draft_store, user_store} from "$lib/stores"
 
     async function submitForm(e) {
         console.log(e.target);
@@ -22,6 +22,7 @@ import { goto } from "$app/navigation";
 
         formData.append('uuid_parent', crypto.randomUUID())
         formData.append('uuid_child', crypto.randomUUID())
+        formData.append('user_id', $user_store?.id);
        
         const response = await fetch(`insert_wants`, {
             method: 'post',

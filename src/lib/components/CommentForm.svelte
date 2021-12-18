@@ -1,12 +1,13 @@
 <script>
     export let want;
-    import {comments_store} from "$lib/stores"
+    import {comments_store, user_store} from "$lib/stores"
     let content;
 
     async function submitComment(e) {
         document.getElementById('submitCommentButton').disabled = true;
         var formData = new FormData(e.target);
         formData.append('want_id', want.id)
+        formData.append('user_id', $user_store?.id)
 
         let response = await fetch('insert_comment_on_want', {
             method: 'post',

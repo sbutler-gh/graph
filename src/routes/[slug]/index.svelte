@@ -16,6 +16,8 @@ import CommentsDisplay from "$lib/components/CommentsDisplay.svelte";
 
         var formData = new FormData(e.target);
         formData.append('uuid_child', want.id);
+        // We'll append the user id to show who created this.
+        formData.append('user_id', $user_store?.id)
 
         // First, we want to check if the item being submitted exists already.  And if so, to prevent sprawl, we want to create the parent on the current want with that already existing item.
         if ($wants_store.find(element => element.name == in_order_to)) {
@@ -84,6 +86,8 @@ import CommentsDisplay from "$lib/components/CommentsDisplay.svelte";
 
 var formData = new FormData(e.target);
 formData.append('uuid_parent', want.id);
+// We'll append the user id to show who created this.
+formData.append('user_id', $user_store?.id)
 
 // First, we want to check if the item being submitted exists already.  And if so, to prevent sprawl, we want to create the child on the current want with that already existing item.
 if ($wants_store.find(element => element.name == to_accomplish)) {
@@ -121,6 +125,7 @@ else {
     // We want to add the name of the new want to the formData, so it can be read in the insert_want endoint.
     formData.append('want_name', to_accomplish);
 
+
     const response = await fetch(`insert_want`, {
     method: 'post',
     body: formData
@@ -156,6 +161,9 @@ document.getElementById('submitTryingToButton').disabled = true;
 
 var formData = new FormData(e.target);
 formData.append('uuid_parent', selected_in_order_to.id);
+
+// We'll append the user id to show who created this.
+formData.append('user_id', $user_store?.id)
 
 // First, we want to check if the item being submitted exists already.  And if so, to prevent sprawl, we want to create the child on the current want with that already existing item.
 if ($wants_store.find(element => element.name == trying_to)) {
@@ -282,7 +290,7 @@ console.log(error);
 <script context="module">
 
 import { goto } from "$app/navigation";
-      import {wants_many_to_many_store, wants_store, want_store, in_order_to_draft_store} from "$lib/stores"
+      import {wants_many_to_many_store, wants_store, want_store, in_order_to_draft_store, user_store} from "$lib/stores"
 
       import { get } from 'svelte/store'
 

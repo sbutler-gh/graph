@@ -1,9 +1,21 @@
 <script>
+import SignUpForm from "$lib/components/SignUpForm.svelte";
+import UserDisplay from "$lib/components/UserDisplay.svelte";
+
   import "../app.css";
 </script>
 <script context="module">
-  import {wants_many_to_many_store, wants_store} from "$lib/stores"
+  import {wants_many_to_many_store, wants_store, user_store} from "$lib/stores"
+  import { browser } from '$app/env';
   export async function load({ page, fetch}) {
+
+    if (browser) {
+    
+    if (localStorage.getItem('user')) {
+        user_store.set(JSON.parse(localStorage.getItem('user')));
+    }
+
+    }
 
     let response = await fetch('get_wants', {
             method: 'post'
@@ -42,11 +54,17 @@
 </script>
 
 <div class="main">
+  {#if $user_store?.id}
+  <UserDisplay></UserDisplay>
+  {:else}
+  <SignUpForm></SignUpForm>
+  {/if}
   <slot />
 </div>
 <style>
 .main {
   max-width: 650px;
-  margin: auto
+  margin: auto;
+  margin-top: 15px;
 }
 </style>
