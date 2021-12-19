@@ -377,6 +377,7 @@ import { goto } from "$app/navigation";
 <br>
 <button disabled><a disabled>{want?.name}</a></button>
 <br>
+<div class="section">
 <h5 style="margin-right: 10px;">In order to:</h5>
 <br>
 <ul>
@@ -390,7 +391,9 @@ import { goto } from "$app/navigation";
     <button id="submitParentButton" style="display: block; margin-left: auto; margin-top: 10px;">Add purpose</button>
  </form></li>
 </ul>
+</div>
 <br>
+<div class="section">
 <h5>How can we <span style="display: inline"><button style="display: inline" disabled><a disabled>{want?.name}</a></button></span>?</h5>
 <ul>
 {#if children?.length > 0}
@@ -404,8 +407,10 @@ import { goto } from "$app/navigation";
     <button id="submitChildButton" style="display: block; margin-left: auto; margin-top: 10px;">Add means</button>
     </form></li>
 </ul>
+</div>
 <br>
 <br>
+<div class="section">
 {#if parents?.length > 0}
 <h5>What else can we do in order to <select style="" bind:value={selected_in_order_to}>
 {#each parents as parent}
@@ -424,7 +429,7 @@ import { goto } from "$app/navigation";
 </ul>
 <br>
 {/if}
-<hr>
+</div>
 <br>
 <CommentForm want={want}></CommentForm>
 {#if want?.id}
@@ -447,5 +452,13 @@ import { goto } from "$app/navigation";
         height: 24px;
         border: none;
         border-bottom: solid 1px gray;
+    }
+
+    .section {
+        background: #fdfdfd;
+        border-radius: 10px;
+        border: solid 1px lightgrey;
+        padding: 20px;
+        
     }
 </style>
