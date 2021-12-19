@@ -373,13 +373,13 @@ import { goto } from "$app/navigation";
 	}
 </script>
 <a href="/" style="margin: 10px 0; display: block;">Home</a>
-<h3>What are you trying to do?</h3>
-
-<p>{want?.name}</p>
+<p style="font-weight: 700">What are you/we trying to do?</p>
+<br>
+<button disabled><a disabled>{want?.name}</a></button>
 <br>
 <h5>In order to ...</h5>
-<br>
 {#if parents?.length > 0}
+<br>
 {#each parents as parent}
 <button><a sveltekit:prefetch href={parent.name}>{parent.name}</a></button>
 {/each}
@@ -390,9 +390,9 @@ import { goto } from "$app/navigation";
 <button id="submitParentButton" style="display: block;">Add new</button>
 </form>
 <br>
-<h5>How can we accomplish &#123;<span>{want?.name}</span>&#125;?</h5>
-<br>
+<h5>How can we accomplish <span style="display: inline"><button style="display: inline" disabled><a disabled>{want?.name}</a></button></span>?</h5>
 {#if children?.length > 0}
+<br>
 {#each children as child}
 <button><a sveltekit:prefetch href={child.name}>{child.name}</a></button>
 {/each}
@@ -403,12 +403,11 @@ import { goto } from "$app/navigation";
 <button id="submitChildButton" style="display: block;">Add new</button>
 </form>
 <br>
-<h5>What else can we do in order to <select style="" bind:value={selected_in_order_to}>
 {#if parents?.length > 0}
+<h5>What else can we do in order to <select style="" bind:value={selected_in_order_to}>
 {#each parents as parent}
 <option value={parent}>{parent.name}</option>
 {/each}
-{/if}
 </select>?</h5>
 <br>
 {#each new_trying_to_array as new_trying_to}
@@ -419,6 +418,7 @@ import { goto } from "$app/navigation";
     <button id="submitTryingToButton" style="display: block;">Add new</button>
     </form>
 <br>
+{/if}
 <hr>
 <br>
 <CommentForm want={want}></CommentForm>
@@ -432,5 +432,6 @@ import { goto } from "$app/navigation";
     }
     button {
         display: block;
+        margin-bottom: 10px;
     }
 </style>
