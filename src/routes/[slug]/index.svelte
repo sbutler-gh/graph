@@ -1,6 +1,7 @@
 <script>
     import CommentForm from "$lib/components/CommentForm.svelte";
 import CommentsDisplay from "$lib/components/CommentsDisplay.svelte";
+import { page } from "$app/stores";
     export let want;
     export let parents;
     export let children;
@@ -372,6 +373,24 @@ import { goto } from "$app/navigation";
 			};
 	}
 </script>
+<svelte:head>
+<title>Clarify</title>
+<meta name="description" content="What are you/we trying to do? {want?.name}"/>
+
+<meta property="og:title" content="{want?.name}" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{$page.path}" />
+<meta property="og:description" content="What are you/we trying to do? {want?.name}"/>
+<meta property="og:image" content="">
+
+<!-- <meta name="twitter:card" content="summary_large_image"> -->
+<meta property="twitter:domain" content="clarify.pages.dev">
+<meta property="twitter:url" content="{$page.path}">
+<meta name="twitter:title" content="{want?.name}">
+<meta name="twitter:description" content="What are you/we trying to do? {want?.name}">
+<meta name="twitter:image" content="">
+
+</svelte:head>
 <a href="/" style="margin: 10px 0; display: block;">Home</a>
 <p style="font-weight: 700">What are you/we trying to do?</p>
 <br>
