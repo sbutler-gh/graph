@@ -377,31 +377,34 @@ import { goto } from "$app/navigation";
 <br>
 <button disabled><a disabled>{want?.name}</a></button>
 <br>
-<h5>In order to ...</h5>
-{#if parents?.length > 0}
+<h5 style="margin-right: 10px;">In order to:</h5>
 <br>
+<ul>
+{#if parents?.length > 0}
 {#each parents as parent}
-<button><a sveltekit:prefetch href={parent.name}>{parent.name}</a></button>
+<li><button><a sveltekit:prefetch href={parent.name}>{parent.name}</a></button></li>
 {/each}
 {/if}
+<li><form style="max-width: 300px;" on:submit|preventDefault={submitParent}>
+    <textarea class="blank-line" name="in-order-to" bind:value={in_order_to} onkeypress="return event.charCode != 47 && event.charCode != 92" placeholder="..."></textarea>
+    <button id="submitParentButton" style="display: block; margin-left: auto; margin-top: 10px;">Add purpose</button>
+ </form></li>
+</ul>
 <br>
-<form on:submit|preventDefault={submitParent}>
-<textarea name="in-order-to" bind:value={in_order_to} onkeypress="return event.charCode != 47 && event.charCode != 92"></textarea>
-<button id="submitParentButton" style="display: block;">Add new</button>
-</form>
-<br>
-<h5>How can we accomplish <span style="display: inline"><button style="display: inline" disabled><a disabled>{want?.name}</a></button></span>?</h5>
+<h5>How can we <span style="display: inline"><button style="display: inline" disabled><a disabled>{want?.name}</a></button></span>?</h5>
+<ul>
 {#if children?.length > 0}
 <br>
 {#each children as child}
-<button><a sveltekit:prefetch href={child.name}>{child.name}</a></button>
+<li><button><a sveltekit:prefetch href={child.name}>{child.name}</a></button></li>
 {/each}
 {/if}
+<li><form style="max-width: 300px;" on:submit|preventDefault={submitChild}>
+    <textarea class="blank-line" name="to-accomplish" bind:value={to_accomplish} onkeypress="return event.charCode != 47 && event.charCode != 92" placeholder="..."></textarea>
+    <button id="submitChildButton" style="display: block; margin-left: auto; margin-top: 10px;">Add means</button>
+    </form></li>
+</ul>
 <br>
-<form on:submit|preventDefault={submitChild}>
-<textarea name="to-accomplish" bind:value={to_accomplish} onkeypress="return event.charCode != 47 && event.charCode != 92"></textarea>
-<button id="submitChildButton" style="display: block;">Add new</button>
-</form>
 <br>
 {#if parents?.length > 0}
 <h5>What else can we do in order to <select style="" bind:value={selected_in_order_to}>
@@ -410,13 +413,15 @@ import { goto } from "$app/navigation";
 {/each}
 </select>?</h5>
 <br>
+<ul>
 {#each new_trying_to_array as new_trying_to}
-<p style="margin-bottom: 10px;">In order to <button style="display: inline"><a href={new_trying_to['in_order_to']}>{new_trying_to['in_order_to']}</a></button>, we can <button style="display: inline"><a href={new_trying_to['trying_to']}>{new_trying_to['trying_to']}</a></button></p>
+<li><p style="margin-bottom: 10px;">In order to <button style="display: inline"><a href={new_trying_to['in_order_to']}>{new_trying_to['in_order_to']}</a></button>, we can <button style="display: inline"><a href={new_trying_to['trying_to']}>{new_trying_to['trying_to']}</a></button></p></li>
 {/each}
-<form on:submit|preventDefault={submitTryingTo}>
-    <textarea name="trying-to" bind:value={trying_to} onkeypress="return event.charCode != 47 && event.charCode != 92"></textarea>
-    <button id="submitTryingToButton" style="display: block;">Add new</button>
-    </form>
+<li><form style="max-width: 300px;" on:submit|preventDefault={submitTryingTo}>
+    <textarea class="blank-line" name="trying-to" bind:value={trying_to} onkeypress="return event.charCode != 47 && event.charCode != 92" placeholder="..."></textarea>
+    <button id="submitTryingToButton" style="display: block; margin-left: auto; margin-top: 10px;">Add new</button>
+    </form></li>
+</ul>
 <br>
 {/if}
 <hr>
@@ -433,5 +438,14 @@ import { goto } from "$app/navigation";
     button {
         display: block;
         margin-bottom: 10px;
+    }
+
+    .blank-line {
+        padding: 5px;
+        font-size: 16px;
+        width: 100%;
+        height: 24px;
+        border: none;
+        border-bottom: solid 1px gray;
     }
 </style>

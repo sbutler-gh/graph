@@ -75,5 +75,6 @@ import UserDisplay from "$lib/components/UserDisplay.svelte";
   max-width: 650px;
   margin: auto;
   margin-top: 15px;
+  padding: 10px;
 }
 </style>
